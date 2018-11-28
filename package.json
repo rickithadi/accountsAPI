@@ -4,8 +4,7 @@
     "description": "NodeJS + MongoDB API for User Management, Authentication and Registration",
     "license": "MIT",
     "repository": {
-        "type": "git",
-        "url": "https://github.com/cornflourblue/node-mongo-registration-login-api.git"
+        "type": "git"
     },
     "scripts": {
         "start": "nodemon ./server.js"
