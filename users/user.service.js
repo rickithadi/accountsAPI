@@ -15,7 +15,8 @@ module.exports = {
     update,
     delete: _delete,
     addExercise,
-    deleteExercise
+    deleteExercise,
+    updateExercise
 };
 
 async function authenticate({ username, password }) {
@@ -75,7 +76,6 @@ async function update(id, userParam) {
     await user.save();
 }
 
-
 async function _delete(id) {
     await User.findByIdAndRemove(id);
 }
@@ -91,19 +91,22 @@ async function addExercise(id,  exercise) {
 }
 
 async function deleteExercise(id,exercise){
-    // console.log('received', exercise);
     const user = await User.findById(id);
-   // user.exercises.pull({_id:exercise._id});
-      // const ex = await user.Exercise.findById(exercise._id);
-    console.log('comparing',exercise._id,'and',user.exercises);
-    // for (let i = user.exercises.length - 1; i >= 0; i--) {
-    //     if(ObjectId(user.exercises[i]._id)==exercise._id){
-    //   console.log('deleted exercise', user.exercises[i]);
-    //         user.exercises.remove(i,1);
-    //     }
-    //   }
-
+    if (!user) throw 'User not found';
     user.exercises.remove(exercise._id);
-    // console.log('now at',user.exercises);
    await user.save();
+}
+
+async function updateExercise(id,exercise){
+    const user = await User.findById(id);
+    if (!user) throw 'User not found';
+   // user.exercises.findById(exercise._id);
+    for(let i in user.exercises){
+        if(user.exercises[i]._id==exercise._id){
+            console.log('dounf')
+
+            Object.assign(user.exercises[i], exercise);
+        }
+    }
+    await user.save();   
 }

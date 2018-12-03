@@ -13,7 +13,8 @@ router.delete('/:id', _delete);
 
 
 router.post('/exercise/:id/', addExercise);
-router.post('/Dexercise/:id/', DeleteExercise);
+router.post('/Dexercise/:id/', deleteExercise);
+router.post('/Uexercise/:id/', updateExercise);
 module.exports = router;
 
 function authenticate(req, res, next) {
@@ -63,9 +64,16 @@ function addExercise(req, res, next) {
         .catch(err => next(err));
 }
 
-function DeleteExercise(req, res, next) {
+function deleteExercise(req, res, next) {
     userService.deleteExercise(req.params.id, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
+
+function updateExercise(req, res, next) {
+    userService.updateExercise(req.params.id, req.body)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
 
