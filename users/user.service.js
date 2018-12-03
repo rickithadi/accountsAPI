@@ -2,6 +2,8 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
+var ObjectId = require("mongodb").ObjectID;
+
 const User = db.User;
 const Exercise=db.Exercise;
 
@@ -73,6 +75,7 @@ async function update(id, userParam) {
     await user.save();
 }
 
+
 async function _delete(id) {
     await User.findByIdAndRemove(id);
 }
@@ -90,14 +93,17 @@ async function addExercise(id,  exercise) {
 async function deleteExercise(id,exercise){
     // console.log('received', exercise);
     const user = await User.findById(id);
-    // const ex = await user.Exercise.findById(exercise._id);
-
+   // user.exercises.pull({_id:exercise._id});
+      // const ex = await user.Exercise.findById(exercise._id);
+    console.log('comparing',exercise._id,'and',user.exercises);
     // for (let i = user.exercises.length - 1; i >= 0; i--) {
-    //     if(user.exercises[i]._id==exercise._id){
+    //     if(ObjectId(user.exercises[i]._id)==exercise._id){
     //   console.log('deleted exercise', user.exercises[i]);
-    //         user.exercises.splice(i,1);
+    //         user.exercises.remove(i,1);
     //     }
     //   }
-    console.log(user.exercises);
+
+    user.exercises.remove(exercise._id);
+    // console.log('now at',user.exercises);
    await user.save();
 }
