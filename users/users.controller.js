@@ -9,9 +9,11 @@ router.get('/', getAll);
 router.get('/current', getCurrent);
 router.get('/:id', getById);
 router.post('/:id', update);
-router.post('/exercise/:id/', addExercise);
 router.delete('/:id', _delete);
 
+
+router.post('/exercise/:id/', addExercise);
+router.post('/Dexercise/:id/', DeleteExercise);
 module.exports = router;
 
 function authenticate(req, res, next) {
@@ -57,6 +59,12 @@ function _delete(req, res, next) {
 }
 function addExercise(req, res, next) {
     userService.addExercise(req.params.id, req.body)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function DeleteExercise(req, res, next) {
+    userService.deleteExercise(req.params.id, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
