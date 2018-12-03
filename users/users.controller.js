@@ -9,6 +9,7 @@ router.get('/', getAll);
 router.get('/current', getCurrent);
 router.get('/:id', getById);
 router.post('/:id', update);
+router.post('/exercise/:id/', addExercise);
 router.delete('/:id', _delete);
 
 module.exports = router;
@@ -54,3 +55,9 @@ function _delete(req, res, next) {
         .then(() => res.json({}))
         .catch(err => next(err));
 }
+function addExercise(req, res, next) {
+    userService.addExercise(req.params.id, req.body)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+

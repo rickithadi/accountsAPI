@@ -10,7 +10,8 @@ module.exports = {
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    addExercise
 };
 
 async function authenticate({ username, password }) {
@@ -69,6 +70,27 @@ async function update(id, userParam) {
 
     await user.save();
 }
+
+async function addExercise(id,  exercise) {
+    const user = await User.findById(id);
+
+    // validate
+    if (!user) throw 'User not found';
+    // if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
+    //     throw 'Username "' + userParam.username + '" is already taken';
+    // }
+
+    // // hash password if it was entered
+    // if (userParam.password) {
+    //     userParam.hash = bcrypt.hashSync(userParam.password, 10);
+    // }
+
+    // copy userParam properties to user
+    user.exercises.push(exercise);
+    console.log('added', exercise);
+    await user.save();
+}
+
 
 async function _delete(id) {
     await User.findByIdAndRemove(id);
