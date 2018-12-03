@@ -16,7 +16,8 @@ module.exports = {
     delete: _delete,
     addExercise,
     deleteExercise,
-    updateExercise
+    updateExercise,
+    getExercises
 };
 
 async function authenticate({ username, password }) {
@@ -100,13 +101,18 @@ async function deleteExercise(id,exercise){
 async function updateExercise(id,exercise){
     const user = await User.findById(id);
     if (!user) throw 'User not found';
-   // user.exercises.findById(exercise._id);
     for(let i in user.exercises){
         if(user.exercises[i]._id==exercise._id){
-            console.log('dounf')
-
             Object.assign(user.exercises[i], exercise);
         }
     }
     await user.save();   
+}
+
+async function getExercises(id){
+    // const user= User.findById(id);
+    console.log('tf')
+    // return await user.exercises.find({});
+    
+    return await User.findById(id).select('exercises');
 }
